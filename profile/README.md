@@ -1,4 +1,4 @@
-## 👋 Welcome to 📈EA31337🤖 
+## 👋 Welcome to 📈EA31337🤖
 
 ### About
 
@@ -32,4 +32,3 @@ Forex trading robots and libraries for MetaTrader platform.
 [ghp-ea-strats]: https://ea31337.github.io/EA31337-strategies
 [ghp-ea-tester]: https://ea31337.github.io/EA-Tester
 [ghp-ea31337]: https://ea31337.github.io/EA31337
-
