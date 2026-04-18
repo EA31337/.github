@@ -19,14 +19,6 @@
   - `allow`: `ansible*`, `git*`, `gh*`, `pre-commit*`, `vim*`, `ex*`, `jq*`.
   - `deny`: default `*` catch-all.
 
-### OpenCode (`opencode.yml`)
-
-- **Role**: Primary AI-assisted development agent for autonomous code changes.
-- **Triggers**: `issues`, `issue_comment`, `pull_request_review_comment`, `workflow_call`, `workflow_dispatch`.
-- **Tooling**: Utilizes `anomalyco/opencode/github`.
-- **Integration**: Can be consumed as a reusable workflow via `workflow_call`.
-- **Shell Permissions**: Aligned with `.vscode/settings.json` allowlist.
-
 ### Copilot Setup Steps (`copilot-setup-steps.yml`)
 
 - **Role**: Environment preparation for agents.
@@ -57,7 +49,6 @@
 
 - **actionlint**: All workflow changes MUST be validated via `actionlint`.
 - **pre-commit**: All code changes MUST pass local `pre-commit run -a` before pushing.
-- **Concurrency**: `opencode.yml` uses concurrency groups to prevent push conflicts on the same PR/branch.
 
 ## Troubleshooting
 
@@ -65,8 +56,3 @@
 
 - Root-cause: `persist-credentials: true` in `actions/checkout`.
 - Fix: Set `persist-credentials: false`.
-
-> OpenCode push rejection
-
-- Root-cause: Concurrent runs or diverged branch history.
-- Fix: Use unique branch names or reset/cherry-pick workflow.
