@@ -140,7 +140,7 @@ jobs:
 
 *Note: Requires `OPENCODE_API_KEY` secret to be set in repository settings.
 You must also install the [GitHub OpenCode app](https://github.com/apps/opencode-agent)
-or follow the manual setup guide in OpenCode documentation.*
+or follow the [manual setup guide](https://opencode.ai/docs/github/#manual-setup).*
 
 ## Problem Matchers
 
