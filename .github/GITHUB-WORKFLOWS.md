@@ -138,29 +138,7 @@ jobs:
 
 *Note: Requires `OPENCODE_API_KEY` secret to be set in repository settings.
 You must also install the [GitHub OpenCode app](https://github.com/apps/opencode-agent)
-or follow the [manual setup guide](https://opencode.ai/docs/github/#manual-setup).*
-
-## Workflow Templates
-
-The `workflow-templates/` directory contains reference workflows that are not
-actively executed but are preserved for future use or copying to other
-repositories. These templates can be customized and moved to the `workflows/`
-directory when needed.
-
-## Agent Prompts
-
-The `prompts/` directory contains ready-to-use prompts for AI agents to perform
-common repository management tasks. For agent-loading guidance and catalog, see
-[prompts/AGENTS.md](prompts/AGENTS.md). For human-oriented details, see
-[prompts/README.md](prompts/README.md).
-
-## MCP Configuration
-
-The `.github/mcp-config.json` configuration provides GitHub Copilot access to built-in tools:
-
-- **Repository & Code:** `get_file_contents`, `search_code`, `search_repositories`, `list_branches`, `list_commits`
-- **Issues & PRs:** `get_issue`, `list_pull_requests`, `create_pull_request`
-- **Actions:** `list_workflows`, `list_workflow_runs`, `get_job_logs`
+or follow the manual setup guide in OpenCode documentation.*
 
 ## Problem Matchers
 

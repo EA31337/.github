@@ -33,20 +33,25 @@ on:
       submodules:
         default: 'false'
         description: 'Whether to checkout submodules: true, false, or recursive'
-        options: ['false', 'true', recursive]
+        options:
+          - 'false'
+          - 'true'
+          - recursive
         required: false
         type: choice
   workflow_run:
-    workflows: [OpenCode, OpenCode Review]
-    types: [completed]
+    workflows:
+      - OpenCode
+      - OpenCode Review
+    types:
+      - completed
 permissions:
   contents: read
 jobs:
   actionlint:
     name: actionlint
     # Skip if triggered by workflow_run and the triggering workflow failed
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion
-      == 'success'
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -58,8 +63,7 @@ jobs:
           submodules: ${{ inputs.submodules || 'false' }}
       # Checkout the .github repo to access default matcher files when workflow is called
       - name: Checkout matcher files
-        if: github.event_name == 'workflow_call' && inputs.actionlint-matcher-path
-          == ''
+        if: github.event_name == 'workflow_call' && inputs.actionlint-matcher-path == ''
         uses: actions/checkout@v6
         with:
           repository: Cogni-AI-OU/.github
@@ -87,8 +91,7 @@ jobs:
       - uses: reviewdog/action-actionlint@v1
   link-checker:
     name: Link Checker
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion
-      == 'success'
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -111,8 +114,7 @@ jobs:
           fail: true
   pre-commit:
     name: Pre-commit
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion
-      == 'success'
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -123,8 +125,7 @@ jobs:
           submodules: ${{ inputs.submodules || 'false' }}
       # Checkout the .github repo to access default matcher files when workflow is called
       - name: Checkout matcher files
-        if: github.event_name == 'workflow_call' && inputs.pre-commit-matcher-path
-          == ''
+        if: github.event_name == 'workflow_call' && inputs.pre-commit-matcher-path == ''
         uses: actions/checkout@v6
         with:
           repository: Cogni-AI-OU/.github
