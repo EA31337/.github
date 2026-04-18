@@ -116,7 +116,7 @@ on:
         type: string
 jobs:
   opencode:
-    uses: Cogni-AI-OU/.github/.github/workflows/opencode.yml@main
+    uses: EA31337/.github/.github/workflows/opencode.yml@master
     with:
       agent: >-
         ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call')
