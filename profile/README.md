@@ -1,11 +1,11 @@
-## 👋 Welcome to 📈EA31337🤖
+# 👋 Welcome to 📈EA31337🤖
 
-### About
+## About
 
 EA31337 is a collection of free and open source
 Forex trading robots and libraries for MetaTrader platform.
 
-### Main projects
+## Main projects
 
 - [EA31337 Lite, Advanced and Rider][ghp-ea31337] -
   Multi-strategy Forex trading robots.

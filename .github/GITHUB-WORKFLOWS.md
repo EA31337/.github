@@ -51,6 +51,9 @@ name: Check
 on:
   pull_request:
   push:
+  schedule:
+    - cron: 0 0 * * 1  # Run every Monday at 00:00 UTC
+  workflow_dispatch:
 jobs:
   check:
     uses: EA31337/.github/.github/workflows/check.yml@master
