@@ -41,7 +41,9 @@ and remote URLs before you push changes.
 
 #### Using Check as a Reusable Workflow
 
-You can use the Check workflow in your repository by referencing it via `workflow_call`:
+You can use the Check workflow in your repository by referencing it via
+`workflow_call`. Note that the `master` branch is required as it is the default
+branch for the `EA31337/.github` repository:
 
 ```yaml
 ---
@@ -51,7 +53,7 @@ on:
   push:
 jobs:
   check:
-    uses: Cogni-AI-OU/.github/.github/workflows/check.yml@main
+    uses: EA31337/.github/.github/workflows/check.yml@master
     with:
       submodules: 'false'  # Set to 'true' or 'recursive' if repository uses submodules
 ```
@@ -178,7 +180,7 @@ If you want to use custom matcher files, you can specify them using the inputs:
 ```yaml
 jobs:
   check:
-    uses: Cogni-AI-OU/.github/.github/workflows/check.yml@main
+    uses: EA31337/.github/.github/workflows/check.yml@master
     with:
       actionlint-matcher-path: .github/custom-actionlint-matcher.json
       pre-commit-matcher-path: .github/custom-pre-commit-matcher.json
