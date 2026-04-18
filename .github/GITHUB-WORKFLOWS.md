@@ -6,7 +6,7 @@ This directory contains GitHub Actions workflows, agent prompts, and related con
 
 ### Check Workflow
 
-The `check.yml` workflow runs on pull requests, pushes, and a weekly schedule to
+The `check.yml` workflow runs on pull requests, pushes, and weekly schedule to
 ensure code quality and correctness.
 
 Jobs:
@@ -19,19 +19,29 @@ Jobs:
 
 The link checker job uses [Lychee](https://github.com/lycheeverse/lychee) to
 scan all Markdown files for broken links. It includes caching to avoid rate
-limits. If needed, it can be configured by adding a `.lycheeignore` file at the
-repository root to exclude specific URLs or patterns.
+limits and can be configured via `.lycheeignore` at the repository root to
+exclude specific URLs or patterns.
 
-**Local Testing**: You can test links locally by running Lychee:
+**Local Testing**: You can test links locally with the configured
+`markdown-link-check` pre-commit hook:
 
 ```bash
+# Install from requirements.txt
+pip install -r .devcontainer/requirements.txt
+
+# Check a single file
+pre-commit run markdown-link-check --files path/to/file.md
+
 # Check all Markdown files
-lychee './**/*.md'
+pre-commit run markdown-link-check -a
 ```
+
+The hook uses `.markdown-link-check.json` and checks both local file references
+and remote URLs before you push changes.
 
 #### Using Check as a Reusable Workflow
 
-You can use the Check workflow in your repository by referencing it via `workflow_call`. Note that the `master` branch is required as it is the default branch for the `EA31337/.github` repository:
+You can use the Check workflow in your repository by referencing it via `workflow_call`:
 
 ```yaml
 ---
@@ -41,7 +51,7 @@ on:
   push:
 jobs:
   check:
-    uses: EA31337/.github/.github/workflows/check.yml@master
+    uses: Cogni-AI-OU/.github/.github/workflows/check.yml@main
     with:
       submodules: 'false'  # Set to 'true' or 'recursive' if repository uses submodules
 ```
@@ -52,7 +62,7 @@ The `opencode.yml` workflow provides OpenCode automation for AI-assisted develop
 
 #### Using OpenCode as a Reusable Workflow
 
-You can use the OpenCode workflow in your repository by referencing it via `workflow_call`. Note that the `master` branch is required as it is the default branch for the `EA31337/.github` repository:
+You can use the OpenCode workflow in your repository by referencing it via `workflow_call`:
 
 ```yaml
 ---
@@ -104,7 +114,7 @@ on:
         type: string
 jobs:
   opencode:
-    uses: EA31337/.github/.github/workflows/opencode.yml@master
+    uses: Cogni-AI-OU/.github/.github/workflows/opencode.yml@main
     with:
       agent: >-
         ${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call')
@@ -129,6 +139,28 @@ jobs:
 *Note: Requires `OPENCODE_API_KEY` secret to be set in repository settings.
 You must also install the [GitHub OpenCode app](https://github.com/apps/opencode-agent)
 or follow the [manual setup guide](https://opencode.ai/docs/github/#manual-setup).*
+
+## Workflow Templates
+
+The `workflow-templates/` directory contains reference workflows that are not
+actively executed but are preserved for future use or copying to other
+repositories. These templates can be customized and moved to the `workflows/`
+directory when needed.
+
+## Agent Prompts
+
+The `prompts/` directory contains ready-to-use prompts for AI agents to perform
+common repository management tasks. For agent-loading guidance and catalog, see
+[prompts/AGENTS.md](prompts/AGENTS.md). For human-oriented details, see
+[prompts/README.md](prompts/README.md).
+
+## MCP Configuration
+
+The `.github/mcp-config.json` configuration provides GitHub Copilot access to built-in tools:
+
+- **Repository & Code:** `get_file_contents`, `search_code`, `search_repositories`, `list_branches`, `list_commits`
+- **Issues & PRs:** `get_issue`, `list_pull_requests`, `create_pull_request`
+- **Actions:** `list_workflows`, `list_workflow_runs`, `get_job_logs`
 
 ## Problem Matchers
 
@@ -168,7 +200,7 @@ If you want to use custom matcher files, you can specify them using the inputs:
 ```yaml
 jobs:
   check:
-    uses: EA31337/.github/.github/workflows/check.yml@master
+    uses: Cogni-AI-OU/.github/.github/workflows/check.yml@main
     with:
       actionlint-matcher-path: .github/custom-actionlint-matcher.json
       pre-commit-matcher-path: .github/custom-pre-commit-matcher.json
