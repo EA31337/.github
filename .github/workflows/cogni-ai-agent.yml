@@ -50,6 +50,8 @@ on:
 # When a new run is triggered, it will queue until the previous pending run completes.
 # On the default branch each run gets a unique group (github.run_id) so runs can
 # proceed in parallel, since each one branches off to its own new branch.
+# This logic assumes the workflow is triggered only by issue/PR-related events or branches
+# (and will fall back to github.run_id otherwise) to ensure correct grouping.
 # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
 concurrency:
   cancel-in-progress: false
