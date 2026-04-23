@@ -10,7 +10,6 @@ Read these Agent files when working in corresponding dirs:
 
 ## Additional key files
 
-- [.github/copilot-instructions.md](copilot-instructions.md): main coding standards for agents.
 - [.github/FIREWALL.md](FIREWALL.md): firewall configuration and recommended hosts for agents.
 
 ## Hardened NEVER List
