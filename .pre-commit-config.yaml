@@ -100,7 +100,7 @@ repos:
     hooks:
       - id: validate-submodules
         name: Validate Submodule Consistency
-        entry: .github/scripts/validate-submodules.sh
-        language: script
+        entry: bash -c "! git submodule status --recursive | grep -q '^[+U-]'"
+        language: system
         pass_filenames: false
         always_run: true
