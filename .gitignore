@@ -1,9 +1,13 @@
 # Environments
 .env
 .envrc
+.lock
 /.github/agents/
 /.github/instructions/
 /.github/skills/
 .venv
 env/
 venv/
+# Temporary files.
+*.patch
+*.txt
