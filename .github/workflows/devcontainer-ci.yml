@@ -11,11 +11,13 @@ on:
     branches:
       - dev
       - main
+      - master
     paths:
       - .devcontainer/**
       - .github/workflows/devcontainer-ci.yml
   schedule:
     - cron: 0 0 * * 1  # Run every Monday at 00:00 UTC
+  workflow_dispatch:
   workflow_call:
     # IMPORTANT: When calling this reusable workflow from another repository,
     # you MUST grant 'packages: write' permission in the calling workflow.
@@ -37,6 +39,11 @@ on:
         required: false
         type: string
         default: ''
+      push_filter:
+        description: Filter for the refs to push the image for
+        required: false
+        type: string
+        default: 'refs/heads/main,refs/heads/master,refs/heads/dev'
 env:
   # Keep the commands and packages in lexicographical order.
   REQUIRED_COMMANDS: >-
@@ -110,7 +117,7 @@ jobs:
           imageName: ${{ steps.image.outputs.name }}
           cacheFrom: ${{ steps.image.outputs.name }}
           push: filter
-          refFilterForPush: refs/heads/main
+          refFilterForPush: ${{ inputs.push_filter != '' && inputs.push_filter || 'refs/heads/main,refs/heads/master,refs/heads/dev' }}
           runCmd: |-
             echo "Testing devcontainer build..."
 
