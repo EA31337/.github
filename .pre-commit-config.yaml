@@ -96,3 +96,11 @@ repos:
     rev: v1.5.0
     hooks:
       - id: detect-secrets
+  - repo: local
+    hooks:
+      - id: validate-submodules
+        name: Validate Submodule Consistency
+        entry: bash -c "git submodule status --recursive"
+        language: system
+        pass_filenames: false
+        always_run: true
