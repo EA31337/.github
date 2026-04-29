@@ -9,7 +9,6 @@ on:
       - .github/workflows/devcontainer-ci.yml
   push:
     branches:
-      - dev
       - main
       - master
     paths:
@@ -18,17 +17,12 @@ on:
   schedule:
     - cron: 0 0 * * 1  # Run every Monday at 00:00 UTC
   workflow_dispatch:
-  workflow_call:
-    # IMPORTANT: When calling this reusable workflow from another repository,
-    # you MUST grant 'packages: write' permission in the calling workflow.
-    # Example:
-    #   jobs:
-    #     devcontainer:
-    #       uses: Cogni-AI-OU/.github/.github/workflows/devcontainer-ci.yml@main
-    #       permissions:
-    #         contents: read
-    #         packages: write  # Required for pushing to GitHub Container Registry
     inputs:
+      push_filter:
+        description: Filter for the refs to push the image for
+        required: false
+        type: string
+        default: 'refs/heads/main,refs/heads/master'
       required_commands:
         description: Space-separated list of required command-line tools
         required: false
@@ -39,11 +33,48 @@ on:
         required: false
         type: string
         default: ''
+  workflow_call:
+    # IMPORTANT: When calling this reusable workflow from another repository,
+    # you MUST grant 'packages: write' permission in the calling workflow.
+    # Example:
+    #   jobs:
+    #     devcontainer:
+    #       uses: Cogni-AI-OU/.github/.github/workflows/devcontainer-ci.yml@main
+    #       permissions:
+    #         contents: read
+    #         packages: write  # Required for pushing to GitHub Container Registry
+    #     inputs:
+    #       required_commands:
+    #         description: Space-separated list of required command-line tools
+    #         required: false
+    #         type: string
+    #         default: ''
+    #       required_python_packages:
+    #         description: Space-separated list of required Python packages
+    #         required: false
+    #         type: string
+    #         default: ''
+    #       push_filter:
+    #         description: Filter for the refs to push the image for
+    #         required: false
+    #         type: string
+    #         default: 'refs/heads/main,refs/heads/master'
+    inputs:
       push_filter:
         description: Filter for the refs to push the image for
         required: false
         type: string
-        default: 'refs/heads/main,refs/heads/master,refs/heads/dev'
+        default: 'refs/heads/main,refs/heads/master'
+      required_commands:
+        description: Space-separated list of required command-line tools
+        required: false
+        type: string
+        default: ''
+      required_python_packages:
+        description: Space-separated list of required Python packages
+        required: false
+        type: string
+        default: ''
 env:
   # Keep the commands and packages in lexicographical order.
   REQUIRED_COMMANDS: >-
