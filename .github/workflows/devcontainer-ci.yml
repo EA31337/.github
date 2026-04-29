@@ -117,7 +117,7 @@ jobs:
           imageName: ${{ steps.image.outputs.name }}
           cacheFrom: ${{ steps.image.outputs.name }}
           push: filter
-          refFilterForPush: ${{ inputs.push_filter != '' && inputs.push_filter || 'refs/heads/main,refs/heads/master,refs/heads/dev' }}
+          refFilterForPush: ${{ inputs.push_filter }}
           runCmd: |-
             echo "Testing devcontainer build..."
 
