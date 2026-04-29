@@ -100,7 +100,7 @@ repos:
     hooks:
       - id: validate-submodules
         name: Validate Submodule Consistency
-        entry: bash -c 'git submodule status'
-        language: system
+        entry: .github/scripts/validate-submodules.sh
+        language: script
         pass_filenames: false
         always_run: true
