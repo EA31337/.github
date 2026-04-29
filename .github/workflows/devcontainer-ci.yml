@@ -9,13 +9,30 @@ on:
       - .github/workflows/devcontainer-ci.yml
   push:
     branches:
-      - dev
       - main
+      - master
     paths:
       - .devcontainer/**
       - .github/workflows/devcontainer-ci.yml
   schedule:
     - cron: 0 0 * * 1  # Run every Monday at 00:00 UTC
+  workflow_dispatch:
+    inputs:
+      push_filter:
+        description: Filter for the refs to push the image for
+        required: false
+        type: string
+        default: 'refs/heads/main,refs/heads/master'
+      required_commands:
+        description: Space-separated list of required command-line tools
+        required: false
+        type: string
+        default: ''
+      required_python_packages:
+        description: Space-separated list of required Python packages
+        required: false
+        type: string
+        default: ''
   workflow_call:
     # IMPORTANT: When calling this reusable workflow from another repository,
     # you MUST grant 'packages: write' permission in the calling workflow.
@@ -26,7 +43,28 @@ on:
     #       permissions:
     #         contents: read
     #         packages: write  # Required for pushing to GitHub Container Registry
+    #     inputs:
+    #       required_commands:
+    #         description: Space-separated list of required command-line tools
+    #         required: false
+    #         type: string
+    #         default: ''
+    #       required_python_packages:
+    #         description: Space-separated list of required Python packages
+    #         required: false
+    #         type: string
+    #         default: ''
+    #       push_filter:
+    #         description: Filter for the refs to push the image for
+    #         required: false
+    #         type: string
+    #         default: 'refs/heads/main,refs/heads/master'
     inputs:
+      push_filter:
+        description: Filter for the refs to push the image for
+        required: false
+        type: string
+        default: 'refs/heads/main,refs/heads/master'
       required_commands:
         description: Space-separated list of required command-line tools
         required: false
@@ -110,7 +148,7 @@ jobs:
           imageName: ${{ steps.image.outputs.name }}
           cacheFrom: ${{ steps.image.outputs.name }}
           push: filter
-          refFilterForPush: refs/heads/main
+          refFilterForPush: ${{ inputs.push_filter }}
           runCmd: |-
             echo "Testing devcontainer build..."
 
