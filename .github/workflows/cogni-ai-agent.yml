@@ -67,7 +67,6 @@ jobs:
       github.event_name != 'issues' ||
       !github.event.issue.pull_request
     permissions:
-      actions: read
       contents: write
       id-token: write
       issues: write
@@ -133,8 +132,21 @@ jobs:
               github.event.pull_request.body ||
               inputs.prompt
             }}
-      - name: Generate Session Summary
-        if: always()
-        uses: Cogni-AI-OU/cogni-ai-agent-action/ai-inference/summary@main
+  summary:
+    name: Generate Summary (post-run)
+    needs: cogni-ai-agent
+    if: always() && needs.cogni-ai-agent.result != 'skipped'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
+      - name: Generate Summary
+        uses: Cogni-AI-OU/cogni-ai-agent-action/ai-inference/summary@d883c78527dba26908459dc3c86e2cdeddf42f0a
+        with:
+          agent_job_id: cogni-ai-agent
+          github_token: ${{ github.token }}
