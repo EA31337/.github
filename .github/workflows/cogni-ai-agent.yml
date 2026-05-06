@@ -146,7 +146,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Generate Summary
-        uses: Cogni-AI-OU/cogni-ai-agent-action/ai-inference/summary@d883c78527dba26908459dc3c86e2cdeddf42f0a
+        uses: Cogni-AI-OU/cogni-ai-agent-action/ai-inference/summary@main
         with:
           agent_job_id: cogni-ai-agent
           github_token: ${{ github.token }}
